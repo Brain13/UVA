@@ -14,6 +14,8 @@ public class Vito {
             for (int i = 0; i < houses; ++i) {
                 addresses[i] = input.nextInt();
             }
+            
+            Arrays.sort(addresses);
         
             int median = (addresses[houses / 2] + addresses[(houses - 1) / 2]) / 2;
             int median2 = (addresses[houses / 2] + addresses[(houses - 1) / 2]) / 2 + 1;
