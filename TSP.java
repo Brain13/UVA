@@ -60,11 +60,58 @@ public class TSP {
                 answer = Math.min(answer, solution[i][n - 1]);
             }
             
-            //int[][] path = solve(solution, 
+			int path = -1;
+            for (int i = 0; i < m; ++i) {
+				if (solution[i][n - 1] == answer) {
+					int temp = solve(solution, i, n - 1, path);
+				}
+			}
             
             System.out.println(answer);
             //System.out.println();
         
         }
     }
+	
+	public static int solve(int[][] solution, int i, int j, int path) {
+	
+		// find best of up, mid, and down
+		int up;
+		int upIndex;
+        if (i - 1 >= 0) {
+            up = solution[i - 1][j - 1];
+			upIndex = i - 1;
+        else {
+			up = solution[solution.length - 1][j - 1];
+			upIndex = solution.length - 1;
+		}
+		int mid = solution[i][j - 1];
+		int down;
+		int downIndex;
+		if (i + 1 < solution.length) {
+			down = solution[i + 1][j - 1];
+			downIndex = i + 1;
+		}
+		else {
+			down = solution[0][j - 1];
+			downIndex = 0;
+		}
+		
+		int min = Math.min(up, Math.min(mid, down));
+		if (path == -1)
+			path = i;
+		else
+			path = path * 10 + i;
+		
+		// go up, mid, and down
+		if (solution[upIndex][j - 1] == min)
+			solve(solution, upIndex, j - 1);
+		if (solution[i][j - 1] == min)
+			solve(solution, i, j - 1);
+		if (solution[downIndex][j - 1] == min)
+			solve(solution, downIndex, j - 1);
+		
+		return 0;
+	
+	}
 }
