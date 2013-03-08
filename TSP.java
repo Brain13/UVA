@@ -64,9 +64,14 @@ public class TSP {
             for (int i = 0; i < m; ++i) {
 				if (solution[i][n - 1] == answer) {
 					int temp = solve(solution, i, n - 1, path);
+                    if (path == -1)
+                        path = temp;
+                    else
+                        path = Math.min(path, temp);
 				}
 			}
             
+            System.out.println(path);
             System.out.println(answer);
             //System.out.println();
         
@@ -75,12 +80,16 @@ public class TSP {
 	
 	public static int solve(int[][] solution, int i, int j, int path) {
 	
+        if (j == 0)
+            return path + (i + 1) * (int) Math.pow(10, solution.length - (i + 1));
+    
 		// find best of up, mid, and down
 		int up;
 		int upIndex;
         if (i - 1 >= 0) {
             up = solution[i - 1][j - 1];
 			upIndex = i - 1;
+        }
         else {
 			up = solution[solution.length - 1][j - 1];
 			upIndex = solution.length - 1;
@@ -99,19 +108,20 @@ public class TSP {
 		
 		int min = Math.min(up, Math.min(mid, down));
 		if (path == -1)
-			path = i;
+			path = (i + 1);
 		else
-			path = path * 10 + i;
+			path += (i + 1) * Math.pow(10, solution.length - (i + 1));
 		
+        int bestpath = Integer.MAX_VALUE;
 		// go up, mid, and down
 		if (solution[upIndex][j - 1] == min)
-			solve(solution, upIndex, j - 1);
+			bestpath = Math.min(bestpath, solve(solution, upIndex, j - 1, path));
 		if (solution[i][j - 1] == min)
-			solve(solution, i, j - 1);
+			bestpath = Math.min(bestpath, solve(solution, i, j - 1, path));
 		if (solution[downIndex][j - 1] == min)
-			solve(solution, downIndex, j - 1);
+			bestpath = Math.min(bestpath, solve(solution, downIndex, j - 1, path));
 		
-		return 0;
+		return bestpath;
 	
 	}
 }
