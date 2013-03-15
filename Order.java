@@ -25,10 +25,25 @@ public class Order {
 				int right = input.nextInt();
 				tasks[right].reqs.add(left);
 			}
+            
+            Stack<Tasks> stack = new Stack<Tasks>();
 		
 			for (int i = 1; i <= n; ++i) {
 				if (!used[i]) {
-					resolve(tasks, i, used, order, orderPos);
+                    stack.push(tasks[i]);
+                    while (!stack.empty()) {
+                        Tasks curr = stack.pop();
+                        boolean allClear = true;
+                        for (int j = 0; j < curr.reqs.size(); ++j) {
+                            if (!used[curr.reqs.get(j)]) {
+                                stack.push(tasks[curr.reqs.get(j)]);
+                                allClear = false;
+                            }
+                        }
+                        if (!allClear)
+                            stack.push(curr);
+                    }
+					//resolve(tasks, i, used, order, orderPos);
 					used[i] = true;
 					order[orderPos] = i;
 					++orderPos;
