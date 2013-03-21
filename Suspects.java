@@ -28,37 +28,44 @@ public class Suspects {
 					gp[i].students.add(id);
 				}
 			}
-			
+            
 			// find suspects
 			Stack<Group> stack = new Stack<Group>();
 			Student initial = st[0];
-			initial.suspect = true;
-			for (int i = 0; i < initial.groups.size(); ++i) {
-				int gid = initial.groups.get(i);
-				stack.push(gp[gid]);
-				gp[gid].tracked = true;
-			}
-			while (!stack.empty()) {
-				Group g = stack.pop();
-				for (int i = 0; i < g.students.size(); ++i) {
-					int sid = g.students.get(i);
-					st[sid].suspect = true;
-					for (int j = 0; j < st[sid].groups.size(); ++j) {
-						int gid = st[sid].groups.get(j);
-						if (!gp[gid].tracked) {
-							stack.push(gp[gid]);
-						}
-					}
-				}
-			}
-			
-			// output suspects
-			int sus = 0;
-			for (int i = 0; i < n; ++i) {
-				if (st[i].suspect)
-					++sus;
-			}
-			System.out.println(sus);
+            // if 0 is not in a group, then there are no other suspects
+            if (initial == null) {
+                System.out.println(1);
+            }
+            else {
+                initial.suspect = true;
+                for (int i = 0; i < initial.groups.size(); ++i) {
+                    int gid = initial.groups.get(i);
+                    stack.push(gp[gid]);
+                    gp[gid].tracked = true;
+                }
+                while (!stack.empty()) {
+                    Group g = stack.pop();
+                    for (int i = 0; i < g.students.size(); ++i) {
+                        int sid = g.students.get(i);
+                        st[sid].suspect = true;
+                        for (int j = 0; j < st[sid].groups.size(); ++j) {
+                            int gid = st[sid].groups.get(j);
+                            if (!gp[gid].tracked) {
+                                stack.push(gp[gid]);
+                                gp[gid].tracked = true;
+                            }
+                        }
+                    }
+                }
+                
+                // output suspects
+                int sus = 0;
+                for (int i = 0; i < n; ++i) {
+                    if (st[i] != null && st[i].suspect)
+                        ++sus;
+                }
+                System.out.println(sus);
+            }
 		}
 	}
 	
