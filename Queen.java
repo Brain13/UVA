@@ -12,67 +12,21 @@ public class Queen {
 			int y2 = input.nextInt();
 			
 			if (x1 + x2 + y1 + y2 == 0) return;
+            
+            int dx = x1 - x2;
+            int dy = y1 - y2;
 			
 			// no moves needed (same spot)
-			if (x1 == x2 && y1 == y2) {
+			if (dx == 0 && dy == 0) {
 				System.out.println(0);
 			}
-			// same column, row, 1 move
-			else if (x1 == x2 || y1 == y2) {
+			// same column, row, diagonal, 1 move
+			else if (dx == 0 || dy == 0 || Math.abs(dx) == Math.abs(dy)) {
 				System.out.println(1);
 			}
-			// diagonal is harder
+			// max of two moves ever
 			else {
-				boolean diag = false;
-				// up left diag
-				int i = x1;
-				int j = y1;
-				while (!diag && i >= 1 && j >= 1) {
-					if (i == x2 && j == y2) {
-						diag = true;
-					}
-					--i;
-					--j;
-				}
-				// up right diag
-				i = x1;
-				j = y1;
-				while (!diag && i >= 1 && j <= 8) {
-					if (i == x2 && j == y2) {
-						diag = true;
-					}
-					--i;
-					++j;
-				}
-				// down left diag
-				i = x1;
-				j = y1;
-				while (!diag && i <= 8 && j >= 1) {
-					if (i == x2 && j == y2) {
-						diag = true;
-					}
-					++i;
-					--j;
-				}
-				// down right diag
-				i = x1;
-				j = y1;
-				while (!diag && i <= 8 && j <= 8) {
-					if (i == x2 && j == y2) {
-						diag = true;
-					}
-					++i;
-					++j;
-				}
-				
-				// 1 move on diag
-				if (diag) {
-					System.out.println(1);
-				}
-				// max of two moves ever
-				else {
-					System.out.println(2);
-				}
+				System.out.println(2);
 			}
 		}
 	}
