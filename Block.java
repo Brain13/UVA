@@ -73,18 +73,21 @@ public class Block {
             }
             
             // calculate the power index
-            for (int i = 0; i < parties; ++i) {
+            for (int k = 0; k < parties; ++k) {
+            for (int i = 1; i < parties; ++i) {
                 for (int j = 0; j < combo[i].size(); ++j) {
                     Combo set = (Combo) combo[i].get(j);
-                    if (set.party[i] && set.power >= minimum && set.power - power[i] < minimum)
-                        ++index[i];
-                     //else {
-                        for (int k = 0; k < parties; ++k)
-                            if (set.party[k])
-                                System.out.print((char) (k + 'A'));
-                        System.out.println(" " + set.power + " i: " + i + " j: " + j);
-                    //}
+                    if (set.party[k] && set.power >= minimum && set.power - power[k] < minimum)
+                        ++index[k];
+                     else {
+                        //System.out.println("not good. set: " + set.power + ", single: " + power[k]);
+                     }
+                    /*for (int x = 0; x < parties; ++x)
+                        if (set.party[x])
+                            System.out.print((char) (x + 'A'));
+                    System.out.println(" " + set.power + " i: " + i + " j: " + j);*/
                 }
+            }
             }
             
             // find power index
