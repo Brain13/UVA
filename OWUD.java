@@ -172,11 +172,18 @@ public class OWUD {
         }
         else if (first) {
             // check other move
-            int jj = checkMove(board, i, j, !player, !first);
+            boolean lose = false;
+            for (int i1 = 0; !lose && i1 < board.size; ++i1) {
+                for (int j1 = 0; !lose && j1 < board.size; ++j1) {
+                    int jj = checkMove(board, i1, j1, !player, !first);
+                    if (jj == 1)
+                        lose = true;
+                }
+            }
             // reset
             --peg.end;
             peg.pieces[peg.end] = false;
-            if (jj == 1)
+            if (lose)
                 return -1;
             else
                 return 0;
